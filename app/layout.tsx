@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" className={`${sora.variable} h-full antialiased`}>
       <body
         className="min-h-full flex flex-col"
-        style={{ fontFamily: "var(--font-sora), sans-serif", backgroundColor: "#0d0d12", color: "#eeedf7" }}
+        style={{ fontFamily: "var(--font-sora), sans-serif", backgroundColor: "#06060a", color: "#eeedf7" }}
       >
         {children}
       </body>
