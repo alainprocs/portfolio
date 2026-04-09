@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { SparklesCore } from "@/components/ui/sparkles";
 import Image from "next/image";
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 // ── Types ──────────────────────────────────────────────────────
 interface NavLink { label: string; href: string; }
 interface ProjectCard { label: string; title: string; desc: React.ReactNode; img: string; link?: string; }
@@ -24,40 +26,40 @@ const projects: ProjectCard[] = [
   {
     label: "MCP Servers", title: "Blog Maker",
     desc: <>The workflow that replaced a whole <strong className="text-white">marketing</strong> team.</>,
-    img: "/assets/images/image09.jpg",
+    img: `${BASE}/assets/images/image09.jpg`,
     link: "https://docs.google.com/document/d/1LWYgGZ1ID7iTryUfHZZiTDCeZj82jr-HN8YyN_3zVB8/edit?usp=sharing",
   },
   {
     label: "Make.com", title: "Amazon Affiliate Marketing Automation",
     desc: <>Everything you need to get started in the Affiliate Marketing Business, <strong className="text-white">like a pro.</strong></>,
-    img: "/assets/images/image03.jpg",
+    img: `${BASE}/assets/images/image03.jpg`,
     link: "https://docs.google.com/document/d/1kEeNU1sZlCZaNWjNstUrdioDwuEVdCjTDBnRyAZxz7Y/edit?usp=sharing",
   },
   {
     label: "n8n", title: "EZ Reddit Lead Gen",
     desc: <>This is how to become big on <strong className="text-white">Reddit</strong> and get more <strong className="text-white">leads</strong> into your <strong className="text-white">business.</strong></>,
-    img: "/assets/images/image06.jpg",
+    img: `${BASE}/assets/images/image06.jpg`,
     link: "https://docs.google.com/document/d/1AG_24DJfGigWgUY4iughagytECXVqBQtBoOPWKFLkuM/edit?usp=sharing",
   },
   {
     label: "n8n", title: "AI-Powered Lead Enrichment Researcher",
     desc: <>Find <strong className="text-white">everything you need to know</strong> about your leads, with the power of <strong className="text-white">Perplexity.</strong></>,
-    img: "/assets/images/image08.jpg",
+    img: `${BASE}/assets/images/image08.jpg`,
     link: "https://docs.google.com/document/d/1l5EFwZW8I1y58f674hO7Cmf-xXmE2OSNA4N960L633k/edit?usp=sharing",
   },
   {
     label: "n8n", title: "The Client Satisfaction Early Warning System",
     desc: <>An automated BI workflow that <strong className="text-white">proactively monitors</strong> client sentiment and sends dissatisfaction alerts before clients churn.</>,
-    img: "/assets/images/image04.jpg",
+    img: `${BASE}/assets/images/image04.jpg`,
   },
 ];
 
 const sites: SiteCard[] = [
-  { label: "WordPress", title: "Eightx", desc: "eightx.co", img: "/assets/images/image07.jpg", href: "https://eightx.co/" },
-  { label: "WordPress", title: "TranquiWick", desc: "tranquilwick.com", img: "/assets/images/image02.jpg", href: "https://tranquilwick.com/" },
-  { label: "Website", title: "Mushy Recipe", desc: "mushyrecipe.com", img: "/assets/images/mushy.jpg", href: "https://mushyrecipe.com/" },
-  { label: "Website", title: "WC Shipping", desc: "wcshipping.com", img: "/assets/images/wcshipping.jpg", href: "https://wcshipping.com/" },
-  { label: "Website", title: "Novo Labs", desc: "novolabs.xyz", img: "/assets/images/novolabs.jpg", href: "https://novolabs.xyz/" },
+  { label: "WordPress", title: "Eightx", desc: "eightx.co", img: `${BASE}/assets/images/image07.jpg`, href: "https://eightx.co/" },
+  { label: "WordPress", title: "TranquiWick", desc: "tranquilwick.com", img: `${BASE}/assets/images/image02.jpg`, href: "https://tranquilwick.com/" },
+  { label: "Website", title: "Mushy Recipe", desc: "mushyrecipe.com", img: `${BASE}/assets/images/mushy.jpg`, href: "https://mushyrecipe.com/" },
+  { label: "Website", title: "WC Shipping", desc: "wcshipping.com", img: `${BASE}/assets/images/wcshipping.jpg`, href: "https://wcshipping.com/" },
+  { label: "Website", title: "Novo Labs", desc: "novolabs.xyz", img: `${BASE}/assets/images/novolabs.jpg`, href: "https://novolabs.xyz/" },
 ];
 
 // ── Helpers ────────────────────────────────────────────────────
