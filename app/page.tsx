@@ -11,6 +11,7 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 interface NavLink { label: string; href: string; }
 interface ProjectCard { label: string; title: string; desc: React.ReactNode; img: string; link?: string; }
 interface SiteCard { label: string; title: string; desc: string; img: string; href: string; }
+interface DemoCard { title: string; tagline: string; desc: string; href: string; accent: string; date: string; }
 
 // ── Data ───────────────────────────────────────────────────────
 const navLinks: NavLink[] = [
@@ -60,6 +61,10 @@ const sites: SiteCard[] = [
   { label: "Website", title: "Mushy Recipe", desc: "mushyrecipe.com", img: `${BASE}/assets/images/mushy.jpg`, href: "https://mushyrecipe.com/" },
   { label: "Website", title: "WC Shipping", desc: "wcshipping.com", img: `${BASE}/assets/images/wcshipping.jpg`, href: "https://wcshipping.com/" },
   { label: "Website", title: "Novo Labs", desc: "novolabs.xyz", img: `${BASE}/assets/images/novolabs.jpg`, href: "https://novolabs.xyz/" },
+];
+
+const demos: DemoCard[] = [
+  { title: "Driftwave", tagline: "Async Video Collaboration", desc: "Replace endless meetings with rich async video threads built for remote design teams.", href: "https://alainprocs.github.io/ui-demos/driftwave", accent: "#06b6d4", date: "Apr 10, 2026" },
 ];
 
 // ── Helpers ────────────────────────────────────────────────────
@@ -134,6 +139,37 @@ function SiteCardEl({ s, i }: { s: SiteCard; i: number }) {
           <p className="font-semibold text-white">{s.title}</p>
           <p className="text-sm" style={{ color: "#9e9baf" }}>{s.desc}</p>
           <span className="mt-1 flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#8c31e8" }}>
+            Visit Site <Arrow />
+          </span>
+        </div>
+      </motion.div>
+    </a>
+  );
+}
+
+// ── Demo card ──────────────────────────────────────────────────
+function DemoCardEl({ d, i }: { d: DemoCard; i: number }) {
+  return (
+    <a href={d.href} target="_blank" rel="noopener" className="no-underline">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: i * 0.08 }}
+        whileHover={{ y: -6 }}
+        className="flex flex-col rounded-2xl overflow-hidden"
+        style={{ background: "rgba(15,15,20,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.07)", transition: "box-shadow 0.2s, border-color 0.2s" }}
+        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = `0 12px 40px ${d.accent}28`; el.style.borderColor = `${d.accent}55`; }}
+        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = "none"; el.style.borderColor = "rgba(255,255,255,0.07)"; }}
+      >
+        <div className="relative w-full flex items-center justify-center" style={{ aspectRatio: "16/9", background: `radial-gradient(ellipse at 30% 40%, ${d.accent}38, transparent 60%), radial-gradient(ellipse at 75% 70%, ${d.accent}18, transparent 50%), #0f1117` }}>
+          <span className="font-bold tracking-tight" style={{ fontSize: "1.6rem", background: `linear-gradient(90deg, ${d.accent}, #a78bfa)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{d.title}</span>
+        </div>
+        <div className="flex flex-col gap-2 p-5">
+          <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: d.accent }}>Daily Build · {d.date}</span>
+          <p className="font-semibold text-white">{d.tagline}</p>
+          <p className="text-sm" style={{ color: "#9e9baf" }}>{d.desc}</p>
+          <span className="mt-1 flex items-center gap-1.5 text-xs font-semibold" style={{ color: d.accent }}>
             Visit Site <Arrow />
           </span>
         </div>
@@ -288,6 +324,13 @@ export default function Home() {
             <SectionTitle>My Websites</SectionTitle>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {sites.map((s, i) => <SiteCardEl key={s.title} s={s} i={i} />)}
+            </div>
+          </section>
+
+          <section id="daily-builds">
+            <SectionTitle>Daily UI Builds</SectionTitle>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {demos.map((d, i) => <DemoCardEl key={d.title} d={d} i={i} />)}
             </div>
           </section>
 
