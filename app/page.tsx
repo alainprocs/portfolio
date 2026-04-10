@@ -65,6 +65,7 @@ const sites: SiteCard[] = [
 
 const demos: DemoCard[] = [
   { title: "Driftwave", tagline: "Async Video Collaboration", desc: "Replace endless meetings with rich async video threads built for remote design teams.", href: "https://alainprocs.github.io/ui-demos/driftwave", accent: "#06b6d4", date: "Apr 10, 2026" },
+  { title: "Orbita", tagline: "Infrastructure Cost Intelligence", desc: "AI-powered cloud cost optimization that eliminates waste automatically. Zero config, instant savings.", href: "https://alainprocs.github.io/ui-demos/orbita", accent: "#f59e0b", date: "Apr 12, 2026" },
 ];
 
 // ── Helpers ────────────────────────────────────────────────────
