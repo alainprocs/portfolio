@@ -327,8 +327,8 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="daily-builds">
-            <SectionTitle>Daily UI Builds</SectionTitle>
+          <section id="ui-demos">
+            <SectionTitle>UI Demos</SectionTitle>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {demos.map((d, i) => <DemoCardEl key={d.title} d={d} i={i} />)}
             </div>
