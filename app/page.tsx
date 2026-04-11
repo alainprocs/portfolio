@@ -302,22 +302,6 @@ export default function Home() {
             className="relative z-10 flex flex-col items-center text-center gap-5 px-6"
             style={{ maxWidth: 640 }}
           >
-            {/* Eyebrow */}
-            <motion.div
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              style={{
-                fontSize: "0.65rem",
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                fontWeight: 700,
-                color: "#05ddfa",
-              }}
-            >
-              ⚡ Production-grade GTM Automations
-            </motion.div>
-
             {/* Name */}
             <motion.h1
               initial={{ opacity: 0, y: 24 }}
