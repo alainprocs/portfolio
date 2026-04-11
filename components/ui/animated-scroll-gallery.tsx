@@ -174,11 +174,8 @@ export function AnimatedScrollGallery({
     offset: ["start end", "center center"],
   })
 
-  // Tilt: more aggressive on mobile (75°) where the effect is harder to perceive
-  const rotateXDesktop = useTransform(scrollYProgress, [0, 1], [55, 0])
-  const rotateXMobile  = useTransform(scrollYProgress, [0, 1], [75, 0])
-  const rotateX = isDesktop ? rotateXDesktop : rotateXMobile
-  const scale   = useTransform(scrollYProgress, [0, 1], [0.85, 1])
+  const rotateX = useTransform(scrollYProgress, [0, 1], isDesktop ? [55, 0] : [30, 0])
+  const scale   = useTransform(scrollYProgress, [0, 1], [0.9, 1])
 
   return (
     <section
@@ -229,7 +226,8 @@ export function AnimatedScrollGallery({
               rotateX,
               scale,
               transformOrigin: "50% 0%",
-              transformStyle: "preserve-3d",
+              transformStyle: isDesktop ? "preserve-3d" : "flat",
+              willChange: "transform",
             }}
           >
             {isDesktop
