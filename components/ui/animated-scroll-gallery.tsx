@@ -175,9 +175,11 @@ export function AnimatedScrollGallery({
     offset: ["start end", "center center"],
   })
 
-  // Tilt: rotates from 55° (laying flat/away) to 0° (upright) as section enters view
-  const rotateX = useTransform(scrollYProgress, [0, 1], [55, 0])
-  const scale    = useTransform(scrollYProgress, [0, 1], [0.85, 1])
+  // Tilt: more aggressive on mobile (75°) where the effect is harder to perceive
+  const rotateXDesktop = useTransform(scrollYProgress, [0, 1], [55, 0])
+  const rotateXMobile  = useTransform(scrollYProgress, [0, 1], [75, 0])
+  const rotateX = isDesktop ? rotateXDesktop : rotateXMobile
+  const scale   = useTransform(scrollYProgress, [0, 1], [0.85, 1])
 
   return (
     <section
@@ -215,7 +217,7 @@ export function AnimatedScrollGallery({
         {/* perspective must live on the PARENT for rotateX to look 3D */}
         <div
           style={{
-            perspective: "1200px",
+            perspective: isDesktop ? "1200px" : "600px",
             perspectiveOrigin: "center top",
           }}
         >
