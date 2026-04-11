@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { ShaderIntro } from "@/components/ui/shader-intro";
+import { SectionNav } from "@/components/ui/section-nav";
 import Image from "next/image";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -319,6 +320,16 @@ export default function Home() {
                 </a>
               ))}
             </motion.nav>
+
+            {/* Section nav toggle bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.46 }}
+              className="mt-4"
+            >
+              <SectionNav />
+            </motion.div>
           </div>
         </section>
 
@@ -333,7 +344,7 @@ export default function Home() {
           </section>
 
           <section id="websites">
-            <SectionTitle>My Websites</SectionTitle>
+            <SectionTitle>Websites Managed</SectionTitle>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {sites.map((s, i) => <SiteCardEl key={s.title} s={s} i={i} />)}
             </div>
