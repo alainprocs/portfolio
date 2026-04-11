@@ -41,21 +41,27 @@ float clouds(vec2 p){
 }
 void main(void){
   vec2 uv=(FC-.5*R)/MN,st=uv*vec2(2,1);
-  uv.y -= 0.32; // shift rendering center upward — meteors sit higher, text area below is cleaner
+  // Shift rendering centre well above screen centre — meteors live in upper region
+  uv.y -= 0.6;
   vec3 col=vec3(0);
   float bg=clouds(vec2(st.x+T*.5,-st.y));
   uv*=1.-.3*(sin(T*.2)*.5+.5);
   for(float i=1.;i<12.;i++){
-    uv+=.062*cos(i*vec2(.1+.01*i,.8)+i*i+T*.5+.1*uv.x); // was .1 → sparser spacing
+    // Very sparse step — meteors spread far apart across the canvas
+    uv+=.038*cos(i*vec2(.1+.01*i,.8)+i*i+T*.5+.1*uv.x);
     vec2 p=uv;
     float d=length(p);
-    // White / silver meteors — subtle cool-blue tint
     col+=.00125/d*(cos(sin(i)*vec2(.2,.4).xyxy.xyz+.2)+1.)*vec3(0.82,0.90,1.0);
     float b=noise(i+p+bg*1.731);
     col+=.0018*b/length(max(p,vec2(b*p.x*.02,p.y)))*vec3(0.75,0.85,1.0);
-    // Very dark background — deep charcoal / near-black with faint blue
     col=mix(col,vec3(bg*.018,bg*.018,bg*.032),d);
   }
+  // Screen-space brightness mask: full brightness in upper ~40%, fades to near-black
+  // in the lower half where the name / text content lives.
+  // FC.y=0 is bottom of canvas, FC.y=R.y is top.
+  float screenY = FC.y / R.y;
+  float textMask = smoothstep(0.18, 0.62, screenY);
+  col *= textMask;
   O=vec4(col,1);
 }
 `
