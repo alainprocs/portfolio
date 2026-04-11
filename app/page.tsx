@@ -275,8 +275,10 @@ export default function Home() {
             position: "relative",
             minHeight: isDesktop ? "70vh" : "88vh",
             display: "flex",
-            alignItems: "center",
+            // On mobile: push content to the bottom so pills sit right above the gallery
+            alignItems: isDesktop ? "center" : "flex-end",
             justifyContent: "center",
+            paddingBottom: isDesktop ? 0 : "clamp(20px, 4vh, 36px)",
             overflow: "hidden",
             background: "#06060a", // opaque — shader canvas covers global particles here
           }}

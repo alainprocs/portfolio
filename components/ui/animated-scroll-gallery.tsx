@@ -182,7 +182,7 @@ export function AnimatedScrollGallery({
   return (
     <section
       ref={sectionRef}
-      style={{ padding: "clamp(40px,8vw,80px) 0 clamp(50px,10vw,100px)" }}
+      style={{ padding: `${isDesktop ? "clamp(40px,8vw,80px)" : "16px"} 0 clamp(50px,10vw,100px)` }}
     >
       <div style={{ width: isDesktop ? "72%" : "90%", margin: "0 auto" }}>
 
