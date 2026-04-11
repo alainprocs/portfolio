@@ -41,11 +41,12 @@ float clouds(vec2 p){
 }
 void main(void){
   vec2 uv=(FC-.5*R)/MN,st=uv*vec2(2,1);
+  uv.y -= 0.32; // shift rendering center upward — meteors sit higher, text area below is cleaner
   vec3 col=vec3(0);
   float bg=clouds(vec2(st.x+T*.5,-st.y));
   uv*=1.-.3*(sin(T*.2)*.5+.5);
   for(float i=1.;i<12.;i++){
-    uv+=.1*cos(i*vec2(.1+.01*i,.8)+i*i+T*.5+.1*uv.x);
+    uv+=.062*cos(i*vec2(.1+.01*i,.8)+i*i+T*.5+.1*uv.x); // was .1 → sparser spacing
     vec2 p=uv;
     float d=length(p);
     // White / silver meteors — subtle cool-blue tint

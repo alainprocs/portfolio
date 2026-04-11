@@ -181,7 +181,7 @@ export function GalleryHoverCarousel({
   }, [api])
 
   return (
-    <section style={{ padding: "clamp(40px,8vw,80px) 0 clamp(50px,10vw,100px)", background: "#06060a" }}>
+    <section style={{ padding: "clamp(40px,8vw,80px) 0 clamp(50px,10vw,100px)" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px,4vw,24px)" }}>
 
         {/* Header */}

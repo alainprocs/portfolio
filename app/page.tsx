@@ -275,6 +275,19 @@ export default function Home() {
           {/* WebGL shader canvas */}
           <AnimatedShaderCanvas />
 
+          {/* Sparkles layer — sits on top of canvas so particles are visible in the hero too */}
+          <div style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none" }}>
+            <SparklesCore
+              background="transparent"
+              minSize={0.3}
+              maxSize={1.1}
+              particleDensity={50}
+              particleColor="#ffffff"
+              speed={0.45}
+              className="w-full h-full"
+            />
+          </div>
+
           {/* Content overlay */}
           <div
             className="relative z-10 flex flex-col items-center text-center gap-5 px-6"
@@ -302,7 +315,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-bold leading-tight tracking-tight"
-              style={{ fontSize: "clamp(2.6rem, 7vw, 5rem)" }}
+              style={{ fontSize: "clamp(2.6rem, 9vw, 6.5rem)" }}
             >
               Hi, I&apos;m{" "}
               <span

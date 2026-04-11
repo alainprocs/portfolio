@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ShaderAnimation } from "./shader-animation"
 
-const DURATION = 1800 // ms before auto-dismiss
+const DURATION = 900 // ms before auto-dismiss
 
 export function ShaderIntro({ onDone }: { onDone: () => void }) {
   const [visible, setVisible] = useState(true)
