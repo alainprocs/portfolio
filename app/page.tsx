@@ -6,6 +6,7 @@ import { SparklesCore } from "@/components/ui/sparkles";
 import { ShaderIntro } from "@/components/ui/shader-intro";
 import { SectionNav } from "@/components/ui/section-nav";
 import { GalleryHoverCarousel, type CarouselItem } from "@/components/ui/gallery-hover-carousel";
+import { PulseBeamsLinkedIn } from "@/components/ui/pulse-beams-linkedin";
 import Image from "next/image";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -419,21 +420,8 @@ export default function Home() {
           )}
         </AnimatePresence>
 
-        <footer className="max-w-5xl mx-auto px-6 pb-16 pt-10 border-t flex flex-col items-center gap-5 text-center" style={{ borderColor: "rgba(255,255,255,0.07)" }}>
-          <p className="text-sm" style={{ color: "#9e9baf" }}>
-            Got any questions? Interested in a custom project?<br />
-            Don&apos;t hesitate to <strong className="text-white">contact me!</strong>
-          </p>
-          <a
-            href="https://www.linkedin.com/in/aprocc/"
-            target="_blank"
-            rel="noopener"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white no-underline transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
-            style={{ background: "#0a66c2" }}
-          >
-            Connect on LinkedIn
-          </a>
-          <p className="text-xs" style={{ color: "#444" }}>Made with ♥ — Alain Procs</p>
+        <footer style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+          <PulseBeamsLinkedIn />
         </footer>
       </motion.main>
     </>
