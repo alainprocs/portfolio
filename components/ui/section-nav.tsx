@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export const TABS = [
-  { id: "projects",  label: "Automations" },
-  { id: "websites",  label: "Websites Managed" },
-  { id: "ui-demos",  label: "UI Demos" },
+  { id: "projects",  label: "Automations",      short: "Automations" },
+  { id: "websites",  label: "Websites Managed",  short: "Websites" },
+  { id: "ui-demos",  label: "UI Demos",           short: "UI Demos" },
 ]
 
 const CYAN   = "#05ddfa"
@@ -18,13 +18,20 @@ interface SectionNavProps {
 }
 
 export function SectionNav({ active, onSelect }: SectionNavProps) {
-  const [hovered, setHovered] = useState<string | null>(null)
+  const [hovered, setHovered]   = useState<string | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 480)
+    check()
+    window.addEventListener("resize", check)
+    return () => window.removeEventListener("resize", check)
+  }, [])
 
   return (
     <div
-      className="section-nav-scroll"
       style={{
-        display: "flex",
+        display: "inline-flex",
         alignItems: "center",
         gap: 4,
         padding: 6,
@@ -33,13 +40,12 @@ export function SectionNav({ active, onSelect }: SectionNavProps) {
         border: "1px solid rgba(255,255,255,0.07)",
         backdropFilter: "blur(16px)",
         WebkitBackdropFilter: "blur(16px)",
-        overflowX: "auto",
-        maxWidth: "calc(100vw - 48px)",
       }}
     >
       {TABS.map((tab) => {
         const isActive  = active  === tab.id
         const isHovered = hovered === tab.id && !isActive
+        const displayLabel = isMobile ? tab.short : tab.label
 
         return (
           <button
@@ -49,12 +55,12 @@ export function SectionNav({ active, onSelect }: SectionNavProps) {
             onMouseLeave={() => setHovered(null)}
             style={{
               position: "relative",
-              padding: "10px 18px",
+              padding: isMobile ? "9px 13px" : "10px 18px",
               borderRadius: 9999,
               border: "none",
               background: "none",
               cursor: "pointer",
-              fontSize: "0.875rem",
+              fontSize: isMobile ? "0.78rem" : "0.875rem",
               fontWeight: 500,
               letterSpacing: "0.02em",
               color: isActive
@@ -132,9 +138,9 @@ export function SectionNav({ active, onSelect }: SectionNavProps) {
                     filter: `drop-shadow(0 0 8px ${CYAN}88)`,
                     fontWeight: 600,
                   }}>
-                    {tab.label}
+                    {displayLabel}
                   </span>
-                : tab.label
+                : displayLabel
               }
             </span>
           </button>
