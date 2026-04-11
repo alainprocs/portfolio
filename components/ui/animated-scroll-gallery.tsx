@@ -175,9 +175,9 @@ export function AnimatedScrollGallery({
     offset: ["start end", "center center"],
   })
 
-  // Tilt: rotates from 22° (tilted away) to 0° (flat) as section scrolls into view
-  const rotateX = useTransform(scrollYProgress, [0, 1], [22, 0])
-  const scale    = useTransform(scrollYProgress, [0, 1], [0.88, 1])
+  // Tilt: rotates from 55° (laying flat/away) to 0° (upright) as section enters view
+  const rotateX = useTransform(scrollYProgress, [0, 1], [55, 0])
+  const scale    = useTransform(scrollYProgress, [0, 1], [0.85, 1])
 
   return (
     <section
@@ -212,23 +212,30 @@ export function AnimatedScrollGallery({
           </div>
         )}
 
-        {/* 3-column gallery with scroll-driven tilt */}
-        <motion.div
+        {/* perspective must live on the PARENT for rotateX to look 3D */}
+        <div
           style={{
-            display: "flex",
-            gap: 10,
-            height: isDesktop ? "clamp(768px, 85vh, 1100px)" : "clamp(480px, 70vh, 680px)",
-            overflow: "hidden",
-            rotateX,
-            scale,
-            transformOrigin: "center top",
             perspective: "1200px",
+            perspectiveOrigin: "center top",
           }}
         >
-          <GalleryColumn items={col1} direction="up"   duration={31} accentColor={accentColor} />
-          <GalleryColumn items={col2} direction="down" duration={37} accentColor={accentColor} />
-          <GalleryColumn items={col3} direction="up"   duration={26} accentColor={accentColor} />
-        </motion.div>
+          <motion.div
+            style={{
+              display: "flex",
+              gap: 10,
+              height: isDesktop ? "clamp(768px, 85vh, 1100px)" : "clamp(480px, 70vh, 680px)",
+              overflow: "hidden",
+              rotateX,
+              scale,
+              transformOrigin: "50% 0%",
+              transformStyle: "preserve-3d",
+            }}
+          >
+            <GalleryColumn items={col1} direction="up"   duration={31} accentColor={accentColor} />
+            <GalleryColumn items={col2} direction="down" duration={37} accentColor={accentColor} />
+            <GalleryColumn items={col3} direction="up"   duration={26} accentColor={accentColor} />
+          </motion.div>
+        </div>
       </div>
     </section>
   )
