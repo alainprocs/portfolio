@@ -36,7 +36,7 @@ export function ShaderAnimation() {
 
       void main(void) {
         vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
-        float t = time*0.05;
+        float t = time*0.09; // faster unfurl — cycles through more pattern per tick
         float lineWidth = 0.002;
 
         vec3 color = vec3(0.0);
@@ -94,7 +94,7 @@ export function ShaderAnimation() {
     // Animation loop
     const animate = () => {
       const animationId = requestAnimationFrame(animate)
-      uniforms.time.value = (uniforms.time.value as number) + 0.05
+      uniforms.time.value = (uniforms.time.value as number) + 0.028 // ~44% slower visual motion
       renderer.render(scene, camera)
 
       if (sceneRef.current) {
