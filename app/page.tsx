@@ -221,7 +221,15 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>("ui-demos");
+  const [isDesktop, setIsDesktop] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const handleSectionSelect = (id: string) => {
     setActiveSection(id);
@@ -265,7 +273,7 @@ export default function Home() {
         <section
           style={{
             position: "relative",
-            minHeight: "100vh",
+            minHeight: isDesktop ? "70vh" : "88vh",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
