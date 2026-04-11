@@ -243,6 +243,15 @@
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+@keyframes gallery-scroll-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+@keyframes gallery-scroll-down {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
 .nav-border-spin {
   background-size: 300% 300%;
   animation: nav-border-spin 3s linear infinite;

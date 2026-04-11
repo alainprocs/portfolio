@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { ShaderIntro } from "@/components/ui/shader-intro";
 import { SectionNav } from "@/components/ui/section-nav";
-import { GalleryHoverCarousel, type CarouselItem } from "@/components/ui/gallery-hover-carousel";
+import { AnimatedScrollGallery } from "@/components/ui/animated-scroll-gallery";
+import type { CarouselItem } from "@/components/ui/gallery-hover-carousel";
 import { PulseBeamsLinkedIn } from "@/components/ui/pulse-beams-linkedin";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { AnimatedShaderCanvas } from "@/components/ui/animated-shader-hero";
@@ -391,7 +392,7 @@ export default function Home() {
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.35 }}
             >
-              <GalleryHoverCarousel
+              <AnimatedScrollGallery
                 heading="Production-grade GTM automations"
                 items={automationItems}
                 accentColor="#05ddfa"
@@ -407,7 +408,7 @@ export default function Home() {
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.35 }}
             >
-              <GalleryHoverCarousel
+              <AnimatedScrollGallery
                 heading="Live sites I've built and managed"
                 items={websiteItems}
                 accentColor="#8c31e8"
@@ -423,7 +424,7 @@ export default function Home() {
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.35 }}
             >
-              <GalleryHoverCarousel
+              <AnimatedScrollGallery
                 heading="Daily UI showcase builds"
                 items={demoItems}
                 accentColor="#f59e0b"
