@@ -7,6 +7,7 @@ import { ShaderIntro } from "@/components/ui/shader-intro";
 import { SectionNav } from "@/components/ui/section-nav";
 import { GalleryHoverCarousel, type CarouselItem } from "@/components/ui/gallery-hover-carousel";
 import { PulseBeamsLinkedIn } from "@/components/ui/pulse-beams-linkedin";
+import { ShinyButton } from "@/components/ui/shiny-button";
 import Image from "next/image";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -333,7 +334,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            {/* Pills */}
+            {/* Shiny buttons */}
             <motion.nav
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -341,16 +342,14 @@ export default function Home() {
               className="flex flex-wrap justify-center gap-2.5 mt-1"
             >
               {navLinks.map((link) => (
-                <a
+                <ShinyButton
                   key={link.label}
                   href={link.href}
                   target={link.href.startsWith("http") ? "_blank" : undefined}
                   rel={link.href.startsWith("http") ? "noopener" : undefined}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-white no-underline transition-all duration-200 hover:-translate-y-0.5 hover:opacity-85"
-                  style={pillStyle(link.label)}
                 >
                   {link.label}
-                </a>
+                </ShinyButton>
               ))}
             </motion.nav>
 
