@@ -67,24 +67,24 @@ const sites: SiteCard[] = [
 ];
 
 const automationItems: CarouselItem[] = [
-  { id: "1", title: "Blog Maker", accent: "MCP Servers", summary: "The workflow that replaced a whole marketing team. End-to-end content pipeline powered by AI.", url: "https://docs.google.com/document/d/1LWYgGZ1ID7iTryUfHZZiTDCeZj82jr-HN8YyN_3zVB8/edit?usp=sharing", image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=640&q=80" },
-  { id: "2", title: "Amazon Affiliate Automation", accent: "Make.com", summary: "Everything you need to get started in the Affiliate Marketing business, like a pro.", url: "https://docs.google.com/document/d/1kEeNU1sZlCZaNWjNstUrdioDwuEVdCjTDBnRyAZxz7Y/edit?usp=sharing", image: "https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=640&q=80" },
-  { id: "3", title: "EZ Reddit Lead Gen", accent: "n8n", summary: "How to become big on Reddit and get more leads into your business, automated.", url: "https://docs.google.com/document/d/1AG_24DJfGigWgUY4iughagytECXVqBQtBoOPWKFLkuM/edit?usp=sharing", image: "https://images.unsplash.com/photo-1611606063065-ee7946f0787a?w=640&q=80" },
-  { id: "4", title: "AI-Powered Lead Enrichment", accent: "n8n + Perplexity", summary: "Find everything you need to know about your leads with the power of Perplexity AI.", url: "https://docs.google.com/document/d/1l5EFwZW8I1y58f674hO7Cmf-xXmE2OSNA4N960L633k/edit?usp=sharing", image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=640&q=80" },
-  { id: "5", title: "Client Satisfaction Early Warning", accent: "n8n", summary: "Automated BI workflow that proactively monitors client sentiment and sends dissatisfaction alerts.", url: "#", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=640&q=80" },
+  { id: "1", title: "Blog Maker", accent: "MCP Servers", summary: "The workflow that replaced a whole marketing team. End-to-end content pipeline powered by AI.", url: "https://docs.google.com/document/d/1LWYgGZ1ID7iTryUfHZZiTDCeZj82jr-HN8YyN_3zVB8/edit?usp=sharing", image: `${BASE}/assets/images/image09.jpg` },
+  { id: "2", title: "Amazon Affiliate Automation", accent: "Make.com", summary: "Everything you need to get started in the Affiliate Marketing business, like a pro.", url: "https://docs.google.com/document/d/1kEeNU1sZlCZaNWjNstUrdioDwuEVdCjTDBnRyAZxz7Y/edit?usp=sharing", image: `${BASE}/assets/images/image03.jpg` },
+  { id: "3", title: "EZ Reddit Lead Gen", accent: "n8n", summary: "How to become big on Reddit and get more leads into your business, automated.", url: "https://docs.google.com/document/d/1AG_24DJfGigWgUY4iughagytECXVqBQtBoOPWKFLkuM/edit?usp=sharing", image: `${BASE}/assets/images/image06.jpg` },
+  { id: "4", title: "AI-Powered Lead Enrichment", accent: "n8n + Perplexity", summary: "Find everything you need to know about your leads with the power of Perplexity AI.", url: "https://docs.google.com/document/d/1l5EFwZW8I1y58f674hO7Cmf-xXmE2OSNA4N960L633k/edit?usp=sharing", image: `${BASE}/assets/images/image08.jpg` },
+  { id: "5", title: "Client Satisfaction Early Warning", accent: "n8n", summary: "Automated BI workflow that proactively monitors client sentiment and sends dissatisfaction alerts.", url: "#", image: `${BASE}/assets/images/image04.jpg` },
 ];
 
 const websiteItems: CarouselItem[] = [
-  { id: "1", title: "Eightx", accent: "WordPress", summary: "Full-stack growth consultancy site with custom CRO optimisations.", url: "https://eightx.co/", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=640&q=80" },
-  { id: "2", title: "TranquiWick", accent: "WordPress", summary: "Luxury candle brand e-commerce with scent personalisation flow.", url: "https://tranquilwick.com/", image: "https://images.unsplash.com/photo-1572726729207-a78d6feb18d7?w=640&q=80" },
-  { id: "3", title: "Mushy Recipe", accent: "Website", summary: "Recipe discovery platform with AI-generated meal plans.", url: "https://mushyrecipe.com/", image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=640&q=80" },
-  { id: "4", title: "WC Shipping", accent: "Website", summary: "Global freight logistics platform with real-time rate calculation.", url: "https://wcshipping.com/", image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=640&q=80" },
-  { id: "5", title: "Novo Labs", accent: "Website", summary: "AI-native product studio — branding, design and development.", url: "https://novolabs.xyz/", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&q=80" },
+  { id: "1", title: "Eightx", accent: "WordPress", summary: "Full-stack growth consultancy site with custom CRO optimisations.", url: "https://eightx.co/", image: `${BASE}/assets/images/image07.jpg` },
+  { id: "2", title: "TranquiWick", accent: "WordPress", summary: "Luxury candle brand e-commerce with scent personalisation flow.", url: "https://tranquilwick.com/", image: `${BASE}/assets/images/image02.jpg` },
+  { id: "3", title: "Mushy Recipe", accent: "Website", summary: "Recipe discovery platform with AI-generated meal plans.", url: "https://mushyrecipe.com/", image: `${BASE}/assets/images/mushy.jpg` },
+  { id: "4", title: "WC Shipping", accent: "Website", summary: "Global freight logistics platform with real-time rate calculation.", url: "https://wcshipping.com/", image: `${BASE}/assets/images/wcshipping.jpg` },
+  { id: "5", title: "Novo Labs", accent: "Website", summary: "AI-native product studio — branding, design and development.", url: "https://novolabs.xyz/", image: `${BASE}/assets/images/novolabs.jpg` },
 ];
 
 const demoItems: CarouselItem[] = [
-  { id: "1", title: "Driftwave", accent: "Apr 10 2026", summary: "Async video collaboration SaaS — dark cyan/violet glassmorphism with floating blob animations.", url: "https://alainprocs.github.io/ui-demos/driftwave", image: "https://images.unsplash.com/photo-1558655146-d09347e92766?w=640&q=80" },
-  { id: "2", title: "Orbita", accent: "Apr 12 2026", summary: "Infrastructure cost intelligence SaaS — black/amber industrial with circuit grid and magnetic buttons.", url: "https://alainprocs.github.io/ui-demos/orbita", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=640&q=80" },
+  { id: "1", title: "Driftwave", accent: "Apr 10 2026", summary: "Async video collaboration SaaS — dark cyan/violet glassmorphism with floating blob animations.", url: "https://alainprocs.github.io/ui-demos/driftwave", image: `${BASE}/assets/images/driftwave.jpg` },
+  { id: "2", title: "Orbita", accent: "Apr 12 2026", summary: "Infrastructure cost intelligence SaaS — black/amber industrial with circuit grid and magnetic buttons.", url: "https://alainprocs.github.io/ui-demos/orbita", image: `${BASE}/assets/images/orbita.jpg` },
 ];
 
 const demos: DemoCard[] = [
