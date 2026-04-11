@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { SparklesCore } from "@/components/ui/sparkles";
+import { ShaderIntro } from "@/components/ui/shader-intro";
 import Image from "next/image";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -193,8 +194,13 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 
 // ── Page ───────────────────────────────────────────────────────
 export default function Home() {
+  const [introComplete, setIntroComplete] = useState(false);
+
   return (
     <>
+      {/* ── Shader intro overlay ──────────────────────────────── */}
+      <ShaderIntro onDone={() => setIntroComplete(true)} />
+
       {/* ── FIXED full-page particle layer ────────────────────
           position:fixed so it covers the viewport at all scroll depths.
           pointer-events:none so clicks pass through to content.       */}
@@ -220,7 +226,12 @@ export default function Home() {
       </div>
 
       {/* ── All scrollable content sits above the particle layer ── */}
-      <main style={{ position: "relative", zIndex: 1, minHeight: "100vh" }}>
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: introComplete ? 1 : 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        style={{ position: "relative", zIndex: 1, minHeight: "100vh" }}
+      >
 
         {/* HERO */}
         <section className="relative flex flex-col items-center justify-center overflow-hidden px-6 pt-24 pb-16" style={{ minHeight: "560px" }}>
@@ -352,7 +363,7 @@ export default function Home() {
             <p className="text-xs" style={{ color: "#444" }}>Made with ♥ — Alain Procs</p>
           </footer>
         </div>
-      </main>
+      </motion.main>
     </>
   );
 }
