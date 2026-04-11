@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
+import { useRef, useState } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import type { CarouselItem } from "./gallery-hover-carousel"
@@ -20,8 +20,8 @@ function distribute(items: CarouselItem[], cols = 3, minPerCol = 5): CarouselIte
 function GalleryCard({ item, accentColor }: { item: CarouselItem; accentColor: string }) {
   return (
     <motion.div
-      whileHover={{ scale: 1.08 }}
-      transition={{ type: "spring", stiffness: 280, damping: 22 }}
+      whileHover={{ scale: 1.2 }}
+      transition={{ type: "spring", stiffness: 260, damping: 20 }}
       style={{ borderRadius: 14, overflow: "hidden", position: "relative", flexShrink: 0 }}
     >
       <Link
@@ -41,42 +41,52 @@ function GalleryCard({ item, accentColor }: { item: CarouselItem; accentColor: s
           />
         </div>
 
-        {/* Text undercard */}
+        {/* Text undercard — solid dark background, fixed 25% height */}
         <div
           style={{
             position: "absolute",
             bottom: 0, left: 0, right: 0,
-            padding: "20px 14px 14px",
-            background: "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 65%, transparent 100%)",
+            height: "25%",
+            padding: "10px 12px",
+            background: "rgba(10, 10, 14, 0.88)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            gap: 3,
           }}
         >
           <div style={{
-            fontSize: "0.58rem",
-            letterSpacing: "0.16em",
+            fontSize: "0.55rem",
+            letterSpacing: "0.15em",
             textTransform: "uppercase",
             color: accentColor,
             fontWeight: 700,
-            marginBottom: 4,
+            lineHeight: 1,
           }}>
             {item.accent ?? "Project"}
           </div>
           <div style={{
-            fontSize: "0.88rem",
+            fontSize: "0.82rem",
             fontWeight: 700,
             color: "#fff",
-            lineHeight: 1.3,
+            lineHeight: 1.25,
+            overflow: "hidden",
+            display: "-webkit-box",
+            WebkitLineClamp: 1,
+            WebkitBoxOrient: "vertical",
           }}>
             {item.title}
           </div>
           <div style={{
-            fontSize: "0.7rem",
-            color: "rgba(255,255,255,0.48)",
-            marginTop: 4,
-            lineHeight: 1.45,
+            fontSize: "0.65rem",
+            color: "rgba(255,255,255,0.55)",
+            lineHeight: 1.4,
+            overflow: "hidden",
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
-            overflow: "hidden",
           }}>
             {item.summary}
           </div>
@@ -99,7 +109,6 @@ function GalleryColumn({
   accentColor: string
 }) {
   const [paused, setPaused] = useState(false)
-  // Double items for seamless CSS loop
   const doubled = [...items, ...items]
 
   return (
@@ -136,10 +145,23 @@ export function AnimatedScrollGallery({
   heading?: string
 }) {
   const [col1, col2, col3] = distribute(items)
+  const sectionRef = useRef<HTMLDivElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "center center"],
+  })
+
+  // Tilt: rotates from 22° (tilted away) to 0° (flat) as section scrolls into view
+  const rotateX = useTransform(scrollYProgress, [0, 1], [22, 0])
+  const scale    = useTransform(scrollYProgress, [0, 1], [0.88, 1])
 
   return (
-    <section style={{ padding: "clamp(40px,8vw,80px) 0 clamp(50px,10vw,100px)" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px,4vw,24px)" }}>
+    <section
+      ref={sectionRef}
+      style={{ padding: "clamp(40px,8vw,80px) 0 clamp(50px,10vw,100px)" }}
+    >
+      <div style={{ width: "90%", margin: "0 auto" }}>
 
         {/* Header */}
         {heading && (
@@ -167,12 +189,23 @@ export function AnimatedScrollGallery({
           </div>
         )}
 
-        {/* 3-column gallery — left & right scroll up, middle scrolls down */}
-        <div style={{ display: "flex", gap: 10, height: "clamp(480px, 70vh, 680px)", overflow: "hidden" }}>
+        {/* 3-column gallery with scroll-driven tilt */}
+        <motion.div
+          style={{
+            display: "flex",
+            gap: 10,
+            height: "clamp(480px, 70vh, 680px)",
+            overflow: "hidden",
+            rotateX,
+            scale,
+            transformOrigin: "center top",
+            perspective: "1200px",
+          }}
+        >
           <GalleryColumn items={col1} direction="up"   duration={28} accentColor={accentColor} />
           <GalleryColumn items={col2} direction="down" duration={34} accentColor={accentColor} />
           <GalleryColumn items={col3} direction="up"   duration={24} accentColor={accentColor} />
-        </div>
+        </motion.div>
       </div>
     </section>
   )
