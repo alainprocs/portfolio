@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { ShaderIntro } from "@/components/ui/shader-intro";
@@ -222,7 +222,6 @@ export default function Home() {
   const [introComplete, setIntroComplete] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>("ui-demos");
   const [isDesktop, setIsDesktop] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     const check = () => setIsDesktop(window.innerWidth >= 768);
@@ -233,10 +232,6 @@ export default function Home() {
 
   const handleSectionSelect = (id: string) => {
     setActiveSection(id);
-    // Give React one frame to render the section, then scroll to it
-    requestAnimationFrame(() => {
-      contentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
   };
 
   return (
@@ -374,8 +369,6 @@ export default function Home() {
         </section>
 
         {/* CONTENT */}
-        {/* Scroll anchor — clicking a pill scrolls here */}
-        <div ref={contentRef} style={{ scrollMarginTop: 0 }} />
 
         <AnimatePresence mode="wait">
           {activeSection === "projects" && (
