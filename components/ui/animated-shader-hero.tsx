@@ -46,25 +46,25 @@ void main(void){
   // offset to keep meteors above the text. On landscape (desktop) no bonus.
   float aspect = R.x / R.y;
   float mobileBoost = smoothstep(1.0, 0.45, aspect); // 0 on desktop, ~1 on phone portrait
-  uv.y -= 0.35 + mobileBoost * 0.30;
+  // Slight upward nudge only — meteors cover the whole hero centre including pill gap
+  uv.y -= 0.08 + mobileBoost * 0.10;
   vec3 col=vec3(0);
   float bg=clouds(vec2(st.x+T*.5,-st.y));
   uv*=1.-.3*(sin(T*.2)*.5+.5);
-  for(float i=1.;i<12.;i++){
-    // Sparse step — meteors spread far apart
-    uv+=.060*cos(i*vec2(.1+.01*i,.5)+i*i+T*.6+.1*uv.x);
+  for(float i=1.;i<16.;i++){
+    // Very wide step — meteors scatter far apart across full hero area
+    uv+=.10*cos(i*vec2(.1+.01*i,.25)+i*i+T*.6+.1*uv.x);
     vec2 p=uv;
     float d=length(p);
-    col+=.00119/d*(cos(sin(i)*vec2(.2,.4).xyxy.xyz+.2)+1.)*vec3(0.82,0.90,1.0);
+    // Bigger (+50%) and 5% dimmer than previous values
+    col+=.00170/d*(cos(sin(i)*vec2(.2,.4).xyxy.xyz+.2)+1.)*vec3(0.82,0.90,1.0);
     float b=noise(i+p+bg*1.731);
-    col+=.00171*b/length(max(p,vec2(b*p.x*.02,p.y)))*vec3(0.75,0.85,1.0);
+    col+=.00243*b/length(max(p,vec2(b*p.x*.02,p.y)))*vec3(0.75,0.85,1.0);
     col=mix(col,vec3(bg*.018,bg*.018,bg*.032),d);
   }
-  // Brightness mask: fades the bottom portion to protect text readability.
-  // Upper 55%+ of the canvas keeps full brightness (glow + meteors visible on desktop).
-  // Lower 25% fades to near-black (text area on mobile).
+  // Mask only the very bottom edge (below pill text) — rest of hero fully lit
   float screenY = FC.y / R.y;
-  float textMask = smoothstep(0.12, 0.50, screenY);
+  float textMask = smoothstep(0.02, 0.18, screenY);
   col *= textMask;
   O=vec4(col,1);
 }
