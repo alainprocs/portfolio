@@ -18,10 +18,16 @@ function distribute(items: CarouselItem[], cols = 3, minPerCol = 5): CarouselIte
 
 // ── Single card ──────────────────────────────────────────────────────────────
 function GalleryCard({ item, accentColor }: { item: CarouselItem; accentColor: string }) {
+  const [tilt, setTilt] = useState(0)
+
   return (
     <motion.div
-      whileHover={{ scale: 1.2 }}
-      transition={{ type: "spring", stiffness: 260, damping: 20 }}
+      // Outer card: no scale zoom — only slight tilt on mobile touch
+      animate={{ rotate: tilt }}
+      transition={{ type: "spring", stiffness: 320, damping: 28 }}
+      onTouchStart={() => setTilt(2)}
+      onTouchEnd={() => setTilt(0)}
+      onTouchCancel={() => setTilt(0)}
       style={{
         borderRadius: 20,
         overflow: "hidden",
@@ -37,8 +43,12 @@ function GalleryCard({ item, accentColor }: { item: CarouselItem; accentColor: s
         rel={item.url.startsWith("http") ? "noopener" : undefined}
         style={{ display: "block", textDecoration: "none" }}
       >
-        {/* Image */}
-        <div style={{ position: "relative", aspectRatio: "3/4" }}>
+        {/* Image only zooms on hover — undercard stays static */}
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 260, damping: 20 }}
+          style={{ position: "relative", aspectRatio: "3/4" }}
+        >
           <Image
             src={item.image}
             alt={item.title}
@@ -46,18 +56,16 @@ function GalleryCard({ item, accentColor }: { item: CarouselItem; accentColor: s
             className="object-cover"
             sizes="(max-width: 640px) 50vw, 33vw"
           />
-        </div>
+        </motion.div>
 
-        {/* Text undercard — solid dark background, fixed 25% height */}
+        {/* Text undercard — white background, fixed 25% height, stays unzoomed */}
         <div
           style={{
             position: "absolute",
             bottom: 0, left: 0, right: 0,
             height: "25%",
             padding: "10px 12px",
-            background: "rgba(10, 10, 14, 0.88)",
-            backdropFilter: "blur(6px)",
-            WebkitBackdropFilter: "blur(6px)",
+            background: "#fff",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -77,7 +85,7 @@ function GalleryCard({ item, accentColor }: { item: CarouselItem; accentColor: s
           <div style={{
             fontSize: "0.82rem",
             fontWeight: 700,
-            color: "#fff",
+            color: "#0f0f1a",
             lineHeight: 1.25,
             overflow: "hidden",
             display: "-webkit-box",
@@ -88,7 +96,7 @@ function GalleryCard({ item, accentColor }: { item: CarouselItem; accentColor: s
           </div>
           <div style={{
             fontSize: "0.65rem",
-            color: "#fff",
+            color: "rgba(0,0,0,0.6)",
             lineHeight: 1.4,
             overflow: "hidden",
             display: "-webkit-box",
