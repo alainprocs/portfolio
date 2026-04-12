@@ -139,7 +139,7 @@ export function PulseBeamsLinkedIn() {
 
       {/* Center button */}
       <div style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 16, padding: "0 24px" }}>
-        <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.35)", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 500, margin: 0, textAlign: "center", maxWidth: 280 }}>
+        <p style={{ fontSize: "0.75rem", color: "#fff", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 500, margin: 0, textAlign: "center", maxWidth: 280 }}>
           Got questions? Interested in a custom project?
         </p>
         <a
@@ -178,7 +178,7 @@ export function PulseBeamsLinkedIn() {
           </svg>
           Connect on LinkedIn
         </a>
-        <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.18)", margin: 0 }}>Made with ♥ — Alain Procs</p>
+        <p style={{ fontSize: "0.75rem", color: "#fff", margin: 0 }}>Made with ♥ — Alain Procs</p>
       </div>
     </div>
   )
