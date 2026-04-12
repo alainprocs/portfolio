@@ -17,24 +17,50 @@ function distribute(items: CarouselItem[], cols = 3, minPerCol = 5): CarouselIte
 }
 
 // ── Single card ──────────────────────────────────────────────────────────────
-function GalleryCard({ item, accentColor }: { item: CarouselItem; accentColor: string }) {
+function GalleryCard({
+  item,
+  accentColor,
+  isExpanded,
+  onExpand,
+  onCollapse,
+}: {
+  item: CarouselItem
+  accentColor: string
+  isExpanded: boolean
+  onExpand: () => void
+  onCollapse: () => void
+}) {
   const [tilt, setTilt] = useState(0)
+
+  const handleClick = (e: React.MouseEvent) => {
+    // Only intercept on touch/mobile (hover: none means no mouse hover capability)
+    if (!window.matchMedia("(hover: none)").matches) return
+    if (!isExpanded) {
+      e.preventDefault()
+      onExpand()
+    }
+    // If already expanded: let Link navigate naturally, then collapse
+    if (isExpanded) onCollapse()
+  }
 
   return (
     <motion.div
-      // Outer card: no scale zoom — only slight tilt on mobile touch
-      animate={{ rotate: tilt }}
+      animate={{ rotate: isExpanded ? 0 : tilt }}
       transition={{ type: "spring", stiffness: 320, damping: 28 }}
-      onTouchStart={() => setTilt(2)}
+      onTouchStart={() => { if (!isExpanded) setTilt(2) }}
       onTouchEnd={() => setTilt(0)}
       onTouchCancel={() => setTilt(0)}
+      onClick={(e) => e.stopPropagation()} // prevent column's collapse-on-outside-click
       style={{
         borderRadius: 20,
         overflow: "hidden",
         position: "relative",
         flexShrink: 0,
-        border: "1px solid rgba(180,180,200,0.13)",
+        border: isExpanded
+          ? `1px solid ${accentColor}55`
+          : "1px solid rgba(180,180,200,0.13)",
         margin: "0 6px",
+        transition: "border-color 0.2s",
       }}
     >
       <Link
@@ -42,6 +68,7 @@ function GalleryCard({ item, accentColor }: { item: CarouselItem; accentColor: s
         target={item.url.startsWith("http") ? "_blank" : undefined}
         rel={item.url.startsWith("http") ? "noopener" : undefined}
         style={{ display: "block", textDecoration: "none" }}
+        onClick={handleClick}
       >
         {/* Image only zooms on hover — undercard stays static */}
         <motion.div
@@ -58,18 +85,20 @@ function GalleryCard({ item, accentColor }: { item: CarouselItem; accentColor: s
           />
         </motion.div>
 
-        {/* Text undercard — white background, fixed 25% height, stays unzoomed */}
-        <div
+        {/* Text undercard — white bg; expands on mobile first tap */}
+        <motion.div
+          animate={{ height: isExpanded ? "52%" : "25%" }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
           style={{
             position: "absolute",
             bottom: 0, left: 0, right: 0,
-            height: "25%",
             padding: "10px 12px",
             background: "#fff",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            gap: 3,
+            gap: 4,
+            overflow: "hidden",
           }}
         >
           <div style={{
@@ -99,19 +128,38 @@ function GalleryCard({ item, accentColor }: { item: CarouselItem; accentColor: s
             color: "rgba(0,0,0,0.6)",
             lineHeight: 1.4,
             overflow: "hidden",
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
+            display: isExpanded ? "block" : "-webkit-box",
+            WebkitLineClamp: isExpanded ? undefined : 2,
+            WebkitBoxOrient: isExpanded ? undefined : "vertical",
           }}>
             {item.summary}
           </div>
-        </div>
+
+          {/* Arrow hint — only visible when expanded */}
+          {isExpanded && (
+            <div style={{
+              marginTop: 6,
+              display: "flex",
+              alignItems: "center",
+              gap: 5,
+              fontSize: "0.6rem",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              color: accentColor,
+            }}>
+              Tap again to open
+              <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          )}
+        </motion.div>
       </Link>
     </motion.div>
   )
 }
 
-// ── Single column — auto-scrolling, pauses on hover ──────────────────────────
+// ── Single column — auto-scrolling, pauses on hover / card expanded ───────────
 function GalleryColumn({
   items,
   direction,
@@ -123,29 +171,19 @@ function GalleryColumn({
   duration: number
   accentColor: string
 }) {
-  const [paused, setPaused] = useState(false)
+  const [hoverPaused, setHoverPaused] = useState(false)
+  const [expandedKey, setExpandedKey] = useState<string | null>(null)
   const doubled = [...items, ...items]
+
+  const isPaused = hoverPaused || expandedKey !== null
 
   return (
     <div
       style={{ flex: 1, minWidth: 0, overflow: "hidden" }}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      // On touch devices: pause only while finger is held down, resume on lift
-      onTouchStart={(e) => {
-        // Only pause if it's a sustained hold, not a tap-to-navigate
-        e.currentTarget.dataset.holdTimer = String(
-          window.setTimeout(() => setPaused(true), 150)
-        )
-      }}
-      onTouchEnd={(e) => {
-        clearTimeout(Number(e.currentTarget.dataset.holdTimer))
-        setPaused(false)
-      }}
-      onTouchCancel={(e) => {
-        clearTimeout(Number(e.currentTarget.dataset.holdTimer))
-        setPaused(false)
-      }}
+      onMouseEnter={() => setHoverPaused(true)}
+      onMouseLeave={() => { setHoverPaused(false); setExpandedKey(null) }}
+      // Tap outside a card collapses any expanded card
+      onClick={() => setExpandedKey(null)}
     >
       <div
         style={{
@@ -153,12 +191,22 @@ function GalleryColumn({
           flexDirection: "column",
           gap: 20,
           animation: `gallery-scroll-${direction} ${duration}s linear infinite`,
-          animationPlayState: paused ? "paused" : "running",
+          animationPlayState: isPaused ? "paused" : "running",
         }}
       >
-        {doubled.map((item, i) => (
-          <GalleryCard key={`${item.id}-${i}`} item={item} accentColor={accentColor} />
-        ))}
+        {doubled.map((item, i) => {
+          const key = `${item.id}-${i}`
+          return (
+            <GalleryCard
+              key={key}
+              item={item}
+              accentColor={accentColor}
+              isExpanded={expandedKey === key}
+              onExpand={() => setExpandedKey(key)}
+              onCollapse={() => setExpandedKey(null)}
+            />
+          )
+        })}
       </div>
     </div>
   )
