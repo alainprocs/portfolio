@@ -1,144 +1,107 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import * as THREE from "three"
+
+// Raw WebGL2 — same visual as before but without the Three.js bundle (~600 kb).
+// The fragment shader is identical; only the boilerplate host code changed.
+
+const FRAGMENT_SHADER = `#version 300 es
+precision highp float;
+out vec4 fragColor;
+uniform vec2 resolution;
+uniform float time;
+
+void main(void) {
+  vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+  float t = time * 0.09;
+  float lineWidth = 0.002;
+  vec3 color = vec3(0.0);
+  for (int j = 0; j < 3; j++) {
+    for (int i = 0; i < 5; i++) {
+      color[j] += lineWidth * float(i * i)
+        / abs(fract(t - 0.01 * float(j) + float(i) * 0.01) * 5.0
+              - length(uv)
+              + mod(uv.x + uv.y, 0.2));
+    }
+  }
+  fragColor = vec4(color, 1.0);
+}`
+
+const VERTEX_SHADER = `#version 300 es
+precision highp float;
+in vec4 position;
+void main() { gl_Position = position; }`
 
 export function ShaderAnimation() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const sceneRef = useRef<{
-    camera: THREE.Camera
-    scene: THREE.Scene
-    renderer: THREE.WebGLRenderer
-    uniforms: Record<string, { type: string; value: unknown }>
-    animationId: number
-  } | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const rafRef    = useRef<number>(0)
 
   useEffect(() => {
-    if (!containerRef.current) return
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const gl = canvas.getContext("webgl2")
+    if (!gl) return
 
-    const container = containerRef.current
-
-    // Vertex shader
-    const vertexShader = `
-      void main() {
-        gl_Position = vec4( position, 1.0 );
-      }
-    `
-
-    // Fragment shader
-    const fragmentShader = `
-      #define TWO_PI 6.2831853072
-      #define PI 3.14159265359
-
-      precision highp float;
-      uniform vec2 resolution;
-      uniform float time;
-
-      void main(void) {
-        vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
-        float t = time*0.09; // faster unfurl — cycles through more pattern per tick
-        float lineWidth = 0.002;
-
-        vec3 color = vec3(0.0);
-        for(int j = 0; j < 3; j++){
-          for(int i=0; i < 5; i++){
-            color[j] += lineWidth*float(i*i) / abs(fract(t - 0.01*float(j)+float(i)*0.01)*5.0 - length(uv) + mod(uv.x+uv.y, 0.2));
-          }
-        }
-
-        gl_FragColor = vec4(color[0],color[1],color[2],1.0);
-      }
-    `
-
-    // Initialize Three.js scene
-    const camera = new THREE.Camera()
-    camera.position.z = 1
-
-    const scene = new THREE.Scene()
-    const geometry = new THREE.PlaneGeometry(2, 2)
-
-    const uniforms = {
-      time: { type: "f", value: 1.0 },
-      resolution: { type: "v2", value: new THREE.Vector2() },
+    const compile = (type: number, src: string) => {
+      const s = gl.createShader(type)!
+      gl.shaderSource(s, src)
+      gl.compileShader(s)
+      return s
     }
+    const vs   = compile(gl.VERTEX_SHADER,   VERTEX_SHADER)
+    const fs   = compile(gl.FRAGMENT_SHADER, FRAGMENT_SHADER)
+    const prog = gl.createProgram()!
+    gl.attachShader(prog, vs)
+    gl.attachShader(prog, fs)
+    gl.linkProgram(prog)
 
-    const material = new THREE.ShaderMaterial({
-      uniforms: uniforms,
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-    })
+    // Fullscreen quad
+    const buf = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,1,-1,-1,1,1,1,-1]), gl.STATIC_DRAW)
+    const pos = gl.getAttribLocation(prog, "position")
+    gl.enableVertexAttribArray(pos)
+    gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0)
 
-    const mesh = new THREE.Mesh(geometry, material)
-    scene.add(mesh)
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true })
-    renderer.setPixelRatio(window.devicePixelRatio)
-
-    container.appendChild(renderer.domElement)
-
-    // Handle window resize
-    const onWindowResize = () => {
-      const width = container.clientWidth
-      const height = container.clientHeight
-      renderer.setSize(width, height)
-      uniforms.resolution.value = new THREE.Vector2(
-        renderer.domElement.width,
-        renderer.domElement.height
-      )
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio, 2)
+      canvas.width  = canvas.clientWidth  * dpr
+      canvas.height = canvas.clientHeight * dpr
+      gl.viewport(0, 0, canvas.width, canvas.height)
     }
+    resize()
+    window.addEventListener("resize", resize)
 
-    // Initial resize
-    onWindowResize()
-    window.addEventListener("resize", onWindowResize, false)
+    const uRes  = gl.getUniformLocation(prog, "resolution")
+    const uTime = gl.getUniformLocation(prog, "time")
 
-    // Animation loop
-    const animate = () => {
-      const animationId = requestAnimationFrame(animate)
-      uniforms.time.value = (uniforms.time.value as number) + 0.028 // ~44% slower visual motion
-      renderer.render(scene, camera)
-
-      if (sceneRef.current) {
-        sceneRef.current.animationId = animationId
-      }
+    // Match original Three.js speed: += 0.028 per frame at ~60 fps ≈ 1.68 units/s
+    const render = (t: number) => {
+      gl.useProgram(prog)
+      gl.uniform2f(uRes, canvas.width, canvas.height)
+      gl.uniform1f(uTime, t * 1.68e-3) // seconds × 1.68 → same visual speed as before
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+      rafRef.current = requestAnimationFrame(render)
     }
+    rafRef.current = requestAnimationFrame(render)
 
-    // Store scene references for cleanup
-    sceneRef.current = {
-      camera,
-      scene,
-      renderer,
-      uniforms,
-      animationId: 0,
-    }
-
-    // Start animation
-    animate()
-
-    // Cleanup function
     return () => {
-      window.removeEventListener("resize", onWindowResize)
-
-      if (sceneRef.current) {
-        cancelAnimationFrame(sceneRef.current.animationId)
-
-        if (container && sceneRef.current.renderer.domElement) {
-          container.removeChild(sceneRef.current.renderer.domElement)
-        }
-
-        sceneRef.current.renderer.dispose()
-        geometry.dispose()
-        material.dispose()
-      }
+      window.removeEventListener("resize", resize)
+      cancelAnimationFrame(rafRef.current)
+      gl.deleteProgram(prog)
+      gl.deleteShader(vs)
+      gl.deleteShader(fs)
     }
   }, [])
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full h-full"
+    <canvas
+      ref={canvasRef}
       style={{
+        display: "block",
+        width: "100%",
+        height: "100%",
         background: "#000",
-        overflow: "hidden",
       }}
     />
   )

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SparklesCore } from "@/components/ui/sparkles";
+import { MiniSparkles } from "@/components/ui/mini-sparkles";
 import { ShaderIntro } from "@/components/ui/shader-intro";
 import { SectionNav } from "@/components/ui/section-nav";
 import { AnimatedScrollGallery } from "@/components/ui/animated-scroll-gallery";
@@ -239,22 +239,8 @@ export default function Home() {
       {/* ── Shader intro overlay ──────────────────────────────── */}
       <ShaderIntro onDone={() => setIntroComplete(true)} />
 
-      {/* ── Full-page particle background at z-index 0 ───────────
-          The hero's WebGL canvas (absolute, inside hero section) naturally
-          covers these particles in the hero area. Below the hero they
-          show through on the dark background — no cutoff.              */}
-      <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", backgroundColor: "#06060a" }}>
-        <SparklesCore
-          id="global-sparkles"
-          background="transparent"
-          minSize={0.3}
-          maxSize={1.1}
-          particleDensity={50}
-          particleColor="#ffffff"
-          speed={0.45}
-          className="w-full h-full"
-        />
-      </div>
+      {/* ── Background colour fill at z-index 0 ─────────────────── */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", backgroundColor: "#06060a" }} />
 
       {/* ── All scrollable content ─────────────────────────────── */}
       <motion.main
@@ -281,12 +267,9 @@ export default function Home() {
           {/* WebGL shader canvas */}
           <AnimatedShaderCanvas />
 
-          {/* Sparkles layer — sits on top of canvas so particles are visible in the hero too */}
+          {/* Lightweight sparkles — 30 fps canvas, no library */}
           <div style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none" }}>
-            <SparklesCore
-              background="transparent"
-              minSize={0.3}
-              maxSize={1.1}
+            <MiniSparkles
               particleDensity={50}
               particleColor="#ffffff"
               speed={0.45}
