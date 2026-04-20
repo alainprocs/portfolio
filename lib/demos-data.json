@@ -34,5 +34,14 @@
     "date": "2026-04-20",
     "accent": "#10b981",
     "category": "SaaS"
+  },
+  {
+    "slug": "solaris",
+    "name": "Solaris",
+    "tagline": "Solar Intelligence Platform",
+    "description": "SaaS landing page for an AI-powered solar energy analytics platform — dark theme, live energy metrics, and animated data visualizations.",
+    "date": "2026-04-20",
+    "accent": "#f97316",
+    "category": "SaaS"
   }
 ]
