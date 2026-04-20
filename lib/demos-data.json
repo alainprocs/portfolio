@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "driftwave",
+    "name": "Driftwave",
+    "tagline": "Async Video Collaboration",
+    "description": "SaaS landing page for a Loom-alternative — dark glassmorphism, animated blobs, and staggered scroll reveals.",
+    "date": "2026-04-10",
+    "accent": "#06b6d4",
+    "category": "SaaS"
+  },
+  {
+    "slug": "orbita",
+    "name": "Orbita",
+    "tagline": "Cloud Cost Intelligence",
+    "description": "SaaS landing page for an AI cloud-spend optimizer — industrial dark theme, circuit grid background, and magnetic CTA buttons.",
+    "date": "2026-04-12",
+    "accent": "#f59e0b",
+    "category": "SaaS"
+  },
+  {
+    "slug": "luminary",
+    "name": "Luminary",
+    "tagline": "AI Creative OS",
+    "description": "SaaS landing page for an AI design workspace — deep navy/coral palette, liquid mesh canvas, typewriter headline, and parallax particle CTA.",
+    "date": "2026-04-13",
+    "accent": "#ff4d6d",
+    "category": "SaaS"
+  }
+]
