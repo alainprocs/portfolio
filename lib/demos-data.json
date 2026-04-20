@@ -43,5 +43,14 @@
     "date": "2026-04-20",
     "accent": "#f97316",
     "category": "SaaS"
+  },
+  {
+    "slug": "helix",
+    "name": "Helix",
+    "tagline": "Catch Errors Before Users Do",
+    "description": "SaaS landing page for an AI-powered error tracking and observability platform — deep violet theme, real-time error stream, animated stack trace visualization.",
+    "date": "2026-04-20",
+    "accent": "#8b5cf6",
+    "category": "SaaS"
   }
 ]
