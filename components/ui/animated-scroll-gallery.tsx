@@ -31,6 +31,7 @@ function GalleryCard({
   onCollapse: () => void
 }) {
   const [tilt, setTilt] = useState(0)
+  const [imgError, setImgError] = useState(false)
 
   const handleClick = (e: React.MouseEvent) => {
     // Only intercept on touch/mobile (hover: none means no mouse hover capability)
@@ -70,23 +71,39 @@ function GalleryCard({
         style={{ display: "block", textDecoration: "none" }}
         onClick={handleClick}
       >
-        {/* Image — zooms on hover */}
+        {/* Image — zooms on hover, gradient fallback if no screenshot yet */}
         <motion.div
           whileHover={{ scale: 1.06 }}
           transition={{ type: "spring", stiffness: 260, damping: 20 }}
           style={{ position: "relative", aspectRatio: "3/4" }}
         >
-          <Image
-            src={item.image}
-            alt={item.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 50vw, 33vw"
-          />
-          {/* dark gradient so the card blends into the undercard */}
+          {imgError ? (
+            <div style={{
+              position: "absolute", inset: 0,
+              background: `radial-gradient(ellipse at 30% 30%, ${accentColor}55 0%, transparent 60%), radial-gradient(ellipse at 70% 70%, ${accentColor}28 0%, transparent 55%), #0a0a14`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <span style={{
+                fontSize: "1.3rem", fontWeight: 800, letterSpacing: "-0.02em",
+                background: `linear-gradient(90deg, ${accentColor}, #a78bfa)`,
+                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+              }}>
+                {item.title}
+              </span>
+            </div>
+          ) : (
+            <Image
+              src={item.image}
+              alt={item.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 50vw, 33vw"
+              onError={() => setImgError(true)}
+            />
+          )}
+          {/* dark gradient blending into undercard */}
           <div style={{
-            position: "absolute",
-            inset: 0,
+            position: "absolute", inset: 0,
             background: "linear-gradient(to bottom, transparent 40%, rgba(4,4,12,0.85) 100%)",
             pointerEvents: "none",
           }} />

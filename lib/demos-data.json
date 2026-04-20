@@ -21,9 +21,18 @@
     "slug": "luminary",
     "name": "Luminary",
     "tagline": "AI Creative OS",
-    "description": "SaaS landing page for an AI design workspace — deep navy/coral palette, liquid mesh canvas, typewriter headline, and parallax particle CTA.",
+    "description": "Luminary unifies AI design generation, real-time collaboration, and version control into one fluid workspace. Ship beautiful work, faster.",
     "date": "2026-04-13",
     "accent": "#ff4d6d",
+    "category": "SaaS"
+  },
+  {
+    "slug": "cascade",
+    "name": "Cascade",
+    "tagline": "AI Workflow Automation",
+    "description": "SaaS landing page for an AI-native workflow automation platform — emerald theme, animated workflow graph, and feature cards.",
+    "date": "2026-04-20",
+    "accent": "#10b981",
     "category": "SaaS"
   }
 ]
