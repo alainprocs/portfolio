@@ -37,23 +37,22 @@ export function MiniSparkles({
 
     let rafId: number
     let lastTime = 0
-    const FRAME_MS = 1000 / 30 // cap at 30 fps — imperceptible for slow-drifting particles
+    const FRAME_MS = 1000 / 60
     let particles: Particle[] = []
 
     const seed = () => {
       const w = canvas.width
       const h = canvas.height
-      // Scale count to canvas area; particleDensity is "particles per 400×400 block"
-      const count = Math.max(8, Math.round((w * h) / (400 * 400) * particleDensity * 0.55))
+      const count = Math.max(12, Math.round((w * h) / (400 * 400) * particleDensity * 0.7))
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
-        size: 0.6 + Math.random() * 1.4,
+        size: 0.8 + Math.random() * 1.6,
         opacity: Math.random(),
-        vx: (Math.random() - 0.5) * speed * 0.18,
-        vy: -(0.05 + Math.random() * 0.5) * speed * 0.25,
+        vx: (Math.random() - 0.5) * speed * 0.55,
+        vy: (Math.random() - 0.5) * speed * 0.55,
         opacityDir: Math.random() > 0.5 ? 1 : -1,
-        opacitySpeed: 0.003 + Math.random() * 0.007,
+        opacitySpeed: 0.018 + Math.random() * 0.028,
       }))
     }
 
@@ -79,10 +78,11 @@ export function MiniSparkles({
       for (const p of particles) {
         p.x += p.vx
         p.y += p.vy
-        // Wrap edges
+        // Wrap all edges
         if (p.x < -2) p.x = w + 2
         if (p.x > w + 2) p.x = -2
         if (p.y < -2) p.y = h + 2
+        if (p.y > h + 2) p.y = -2
 
         // Twinkle
         p.opacity += p.opacityDir * p.opacitySpeed
