@@ -3,7 +3,7 @@
     "slug": "driftwave",
     "name": "Driftwave",
     "tagline": "Async Video Collaboration",
-    "description": "SaaS landing page for a Loom-alternative — dark glassmorphism, animated blobs, and staggered scroll reveals.",
+    "description": "SaaS landing page for a Loom-alternative \u2014 dark glassmorphism, animated blobs, and staggered scroll reveals.",
     "date": "2026-04-10",
     "accent": "#06b6d4",
     "category": "SaaS"
@@ -12,7 +12,7 @@
     "slug": "orbita",
     "name": "Orbita",
     "tagline": "Cloud Cost Intelligence",
-    "description": "SaaS landing page for an AI cloud-spend optimizer — industrial dark theme, circuit grid background, and magnetic CTA buttons.",
+    "description": "SaaS landing page for an AI cloud-spend optimizer \u2014 industrial dark theme, circuit grid background, and magnetic CTA buttons.",
     "date": "2026-04-12",
     "accent": "#f59e0b",
     "category": "SaaS"
@@ -30,7 +30,7 @@
     "slug": "cascade",
     "name": "Cascade",
     "tagline": "AI Workflow Automation",
-    "description": "SaaS landing page for an AI-native workflow automation platform — emerald theme, animated workflow graph, and feature cards.",
+    "description": "SaaS landing page for an AI-native workflow automation platform \u2014 emerald theme, animated workflow graph, and feature cards.",
     "date": "2026-04-20",
     "accent": "#10b981",
     "category": "SaaS"
@@ -39,7 +39,7 @@
     "slug": "solaris",
     "name": "Solaris",
     "tagline": "Solar Intelligence Platform",
-    "description": "SaaS landing page for an AI-powered solar energy analytics platform — dark theme, live energy metrics, and animated data visualizations.",
+    "description": "SaaS landing page for an AI-powered solar energy analytics platform \u2014 dark theme, live energy metrics, and animated data visualizations.",
     "date": "2026-04-20",
     "accent": "#f97316",
     "category": "SaaS"
@@ -48,7 +48,7 @@
     "slug": "helix",
     "name": "Helix",
     "tagline": "Catch Errors Before Users Do",
-    "description": "SaaS landing page for an AI-powered error tracking and observability platform — deep violet theme, real-time error stream, animated stack trace visualization.",
+    "description": "SaaS landing page for an AI-powered error tracking and observability platform \u2014 deep violet theme, real-time error stream, animated stack trace visualization.",
     "date": "2026-04-20",
     "accent": "#8b5cf6",
     "category": "SaaS"
@@ -57,9 +57,18 @@
     "slug": "nova",
     "name": "Nova",
     "tagline": "Infrastructure at the Speed of Light",
-    "description": "SaaS landing page for a real-time infrastructure monitoring platform — electric cyan on near-black, live metric streams, and cinematic data visualizations.",
+    "description": "SaaS landing page for a real-time infrastructure monitoring platform \u2014 electric cyan on near-black, live metric streams, and cinematic data visualizations.",
     "date": "2026-04-21",
     "accent": "#00d4ff",
+    "category": "SaaS"
+  },
+  {
+    "slug": "atlas",
+    "name": "Atlas",
+    "tagline": "Global Edge Network",
+    "description": "SaaS landing page for a global edge CDN platform \u2014 electric sky blue on deep black, animated world node map, live latency dashboard, and hex-grid hero.",
+    "date": "2026-04-25",
+    "accent": "#38bdf8",
     "category": "SaaS"
   }
 ]
